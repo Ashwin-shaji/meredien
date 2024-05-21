@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Meredien</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="admin_assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="admin_assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/images/carosal/logo.jpg" class="logo" alt="Evara Dashboard">
+                <h4 style="color: black;">Meredien</h4>
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userlist"> <!-- Placeholder link for Users -->
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/product"> <!-- Placeholder link for Products -->
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category"> <!-- Placeholder link for Categories -->
+                        <i class="icon material-icons md-star"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/order"> <!-- Placeholder link for orders -->
+                        <i class="icon material-icons md-menu"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+<style>
+    .image-container {
+        position: relative;
+        display: inline-block; 
+        margin-left: 10px;
+    }
+    .close-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        background-color: red ;
+        color: rgb(239, 232, 232);
+        border-radius: 50%; 
+    padding: 5px; 
+    border: 1px solid #ddd; 
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; 
+    height: 20px; 
+    }
+</style>
+<body>
+   
+    <main class="main-wrap">
+        <header class="main-header navbar">
+          
+            <div class="col-nav ms-auto">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                  
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                   
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                            class="material-icons md-exit_to_app"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <form action="" method="post" enctype="multipart/form-data"  onsubmit="return validateForm(event)" >
+            <div class="row">
+                <div class="col-6">
+                    <div class="content-header">
+                        <h2 class="content-title">Edit Product</h2>
+                        
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Update</button>
+                        
+                            
+                       
+                    </div>
+                 
+                    <p id="mainError" class="text-danger"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                           
+                            <div class="row">
+                                
+                                <div class="col-md-3">
+                                    <h6>1. General info</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Product name</label>
+                                        <input type="text" placeholder="Type here" id="name" name="name" value="<%=product.name%>" class="form-control">
+                                        <p id="nameError" class="text-danger"></p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <input placeholder="Type here" class="form-control" id="description" name="description" value="<%=product.description%>" rows="4"></input>
+                                        <p id="descriptionError" class="text-danger"></p>
+                                    </div>
+                                    <!-- <div class="mb-4">
+                                        <label class="form-label">Brand name</label>
+                                        <input type="text" placeholder="Type here" id="brand" name="brand" value="<%=product.brand%>" class="form-control">
+                                        <p id="brandError" class="text-danger"></p>
+                                    </div> -->
+                                </div> 
+                            </div> 
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>2. Pricing</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Cost in Rupee</label>
+                                        <input type="number" placeholder="Rs.00.0" min="1" id="price"  name="price" value="<%=product.price%>" class="form-control" required>
+                                        <p id="priceError" class="text-danger"></p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Count in stock</label>
+                                        <input type="number"  name="stock" value="<%=product.countInStock%>" id="stock" min="0" max="300" class="form-control" required>
+                                        <p id="stockError" class="text-danger"></p>
+                                    </div>
+                                </div> 
+                            </div> 
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>3. Category</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <p> <%=product.category.name%></p>
+                                        <p>update category</p>
+                                        <% if(cate.length > 0) { %>
+                                            <select class="form-select" name="category" required>
+                                                <% for(let i=0; i<cate.length; i++) { %>
+                                                    <% if(product.category.name === cate[i].name) { %>
+                                                        <option value="<%= cate[i]._id %>" selected><%= cate[i].name %></option>
+                                                    <% } else { %>
+                                                        <option value="<%= cate[i]._id %>"><%= cate[i].name %></option>
+                                                    <% } %>
+                                                <% } %>
+                                            </select>
+                                        <% } %>
+                                        
+                                    </div>
+                                </div> 
+                            </div> 
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>4. Media</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Images</label>
+                                        <%product.images.forEach(image => { %>
+                                            <div class="image-container">
+                                            <img src="../uploads/productImages/<%= image %>" alt="" height="60px" width="60px">
+                                            <a href="/admin/edit-product?id=<%=product._id%>&delete=<%= image %>" class="close-icon" ><span aria-hidden="true">&times;</span></a>
+                                        </div>
+                                  <% }) %>
+                                        <input class="form-control" type="file" id="images" name="images" multiple>
+                                        <p id="imagesError" class="text-danger"></p>
+                                       
+                                    </div>
+                                </div> 
+                           
+                            </div> 
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </section> 
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Meredien.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="admin_assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="admin_assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="admin_assets/js/vendor/select2.min.js"></script>
+    <script src="admin_assets/js/vendor/perfect-scrollbar.js"></script>
+    <script src="admin_assets/js/vendor/jquery.fullscreen.min.js"></script>
+   
+    <script src="admin_assets/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const nameInput = document.getElementById('name');
+    const descriptionInput = document.getElementById('description');
+    const brandInput = document.getElementById('brand');
+    const priceInput = document.getElementById('price');
+    const stockInput = document.getElementById('stock');
+ 
+    nameInput.addEventListener('blur', () => validateInput('name', /^\S.{0,99}$/, 'nameError', 'Product Name'));
+    descriptionInput.addEventListener('blur', () => validateInput('description', /^\S.{0,499}$/, 'descriptionError', 'Description'));
+    brandInput.addEventListener('blur', () => validateInput('brand', /^[a-zA-Z\s]+$/, 'brandError', 'Brand'));
+    priceInput.addEventListener('blur', () => validateInput('price', /^\d+(\.\d{1,2})?$/, 'priceError', 'Price'));
+    stockInput.addEventListener('blur', () => validateInput('stock', /^(?:0|[1-9]\d{0,2}|300)$/, 'stockError', 'Stock')); 
+
+    
+    document.getElementById('productForm').addEventListener('submit', validateForm);
+});
+
+function validateForm(event) {
+    const isValidName = validateInput('name', /^\S.{0,99}$/, 'nameError', 'Product Name');
+    const isValidDescription = validateInput('description', /^\S.{0,499}$/, 'descriptionError', 'Description');
+    const isValidBrand = validateInput('brand', /^[a-zA-Z\s]+$/, 'brandError', 'Brand');
+    const isValidPrice = validateInput('price', /^\d+(\.\d{1,2})?$/, 'priceError', 'Price');
+    const isValidStock = validateInput('stock', /^(?:0|[1-9]\d{0,2}|300)$/, 'stockError', 'Stock');
+
+  
+    if (!isValidName || !isValidDescription || !isValidBrand || !isValidPrice || !isValidStock) {
+        event.preventDefault();
+        document.getElementById('mainError').innerText = 'Please correct the highlighted fields.';
+        return false;
+    }
+  
+    return true;
+}
+
+function validateInput(inputId, pattern, errorId, errorMessage) {
+    const inputValue = document.getElementById(inputId).value.trim();
+    const errorElement = document.getElementById(errorId);
+
+    if (inputValue === '') {
+        errorElement.innerText = errorMessage + ' is required.';
+        return false;
+    } else if (!pattern.test(inputValue)) {
+        errorElement.innerText = 'Please enter a valid ' + errorMessage.toLowerCase() + '.';
+        return false;
+    } else {
+        errorElement.innerText = '';
+        return true;
+    }
+}
+
+document.getElementById('images').addEventListener('change', function(e) {
+    var fileInput = e.target;
+    var maxFiles = 3;
+    var validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']; 
+
+    if (fileInput.files.length > maxFiles) {
+        Swal.fire({
+            title: 'Error',
+            text: `You can only upload a maximum of ${maxFiles} files.`,
+            icon: 'error',
+            showConfirmButton: true
+        }).then(() => {
+            fileInput.value = '';
+            document.getElementById('file-upload-error').textContent = `You can only upload a maximum of ${maxFiles} files.`;
+        });
+        return;
+    }
+
+    for (var i = 0; i < fileInput.files.length; i++) {
+        var file = fileInput.files[i];
+        var extension = file.name.split('.').pop().toLowerCase();
+        if (!validExtensions.includes(extension)) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Please upload only image files (jpg, jpeg, png, gif, webp).',
+                icon: 'error',
+                showConfirmButton: true
+            }).then(() => {
+                fileInput.value = '';
+                document.getElementById('file-upload-error').textContent = 'Please upload only image files (jpg, jpeg, png, gif, webp).';
+            });
+            return;
+        }
+    }
+
+    document.getElementById('file-upload-error').textContent = '';
+});
+
+
+</script>
+
+</body>
+
+</html>

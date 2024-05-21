@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Meredien</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="admin_assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="admin_assets/css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+        .existing-image img {
+            max-width: 150px; /* Adjust the max-width as per your preference */
+            max-height: 150px; /* Adjust the max-height as per your preference */
+            margin-bottom: 5px; /* Optional: Add some space below each image */
+        }
+    
+        .existing-image button {
+            margin-top: 5px; /* Optional: Add some space above the delete button */
+        }
+    </style>
+</head>
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="admin_assets/imgs/theme/logo.svg" class="logo" alt="Meredien Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link"href="/admin/dashboard"><i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+          
+                <li class="menu-item  active">
+                    <a class="menu-link" href="/admin/product"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                   
+                </li>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-store"></i>
+                        <span class="text">Category</span>
+                    </a>
+                   
+                </li>
+              
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userlist"> <!-- Placeholder link for Categories -->
+                        <i class="icon material-icons md-store"></i>
+                        <span class="text">users</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+<style>
+       .pagination .page-item.active .page-link {
+    background-color: pink;
+    border-color: pink;
+    color: white; /* Change text color to ensure visibility */
+}
+</style>
+<body>
+
+    <main class="main-wrap">
+            <header class="main-header navbar">
+               
+                <div class="col-nav ms-auto">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                       
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                     
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                class="material-icons md-exit_to_app"></i>Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Products List</h2>
+                 
+                </div>
+                <div>
+                    
+                    <a href="/admin/addproduct" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Images</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <% if (product.length > 0) { %>
+                        <% for (let i = 0; i < product.length; i++) { %>
+                            <tr>
+                                <td><%= product[i].name %></td>
+                                <td><%= product[i].description %></td>
+                                <td>
+                                    <% product[i].images.forEach(image => { %>
+                                        <img src="../uploads/productImages/<%= image %>" alt="" height="60px" width="60px">
+                                    <% }) %>
+                                </td>
+                                <td><%= product[i].category.name %></td>
+                                <td><%= product[i].price %></td>
+                                <td><%= product[i].countInStock %></td>
+                                <td>
+                                    <% if (product[i].is_deleted) { %>
+                                        <span class="text-success">Active</span>
+                                    <% } else { %>
+                                        <span class="text-danger">Inactive</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <a href="/admin/edit-product?id=<%=product[i]._id %>" class="btn btn-success">Edit</a>
+                                    <% if (product[i].is_deleted) { %>
+                                        <a href="/admin/active?id=<%= product[i]._id %>&action=Activate" class="btn btn-danger ">Deactivate</a>
+                                    <% } else { %>
+                                        <a href="/admin/active?id=<%= product[i]._id %>&action=Deactivate" class="btn btn-success">Activate</a>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="8">Products Not Found</td>
+                        </tr>
+                    <% } %>
+                </table>
+                
+                
+              
+                 
+                   
+                </div> 
+            </div> 
+
+
+
+            
+            
+           
+        </section> 
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©,Meredien.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="/public/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/public/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/public/assets/js/vendor/select2.min.js"></script>
+    <script src="/public/assets/js/vendor/perfect-scrollbar.js"></script>
+    <script src="/public/assets/js/vendor/jquery.fullscreen.min.js"></script>
+    
+    <script src="/public/assets/js/main.js" type="text/javascript"></script>
+</body>
+</html>

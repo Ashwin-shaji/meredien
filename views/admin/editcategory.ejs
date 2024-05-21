@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="admin_assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="admin_assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="admin_assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/dashboard"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userlist"> <!-- Placeholder link for Users -->
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/product"> <!-- Placeholder link for Products -->
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category"> <!-- Placeholder link for Categories -->
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+           
+            <div class="col-nav ms-auto">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                 
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                   
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                            class="material-icons md-exit_to_app"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories </h2>
+                    
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <form action="" method="post" >
+                            <%if(message){%>
+                                <p class="text-danger"><%= message %></p>
+                                <%}%>
+    <div class="container p-4 form-group">
+        
+        <h1>Edit category</h1>
+        <input type="text" name="name" placeholder="category name" value="<%=cate.name%>" class="form-control mb-2" required>
+        <br>
+        <br>
+        <input type="text" name="description" placeholder="description" value="<%=cate.description%>" class="form-control mb-2" required>
+        <br><br>
+        <input type="hidden" name="id" value="<%=cate._id%>">
+        <br><br>
+        <button class="btn btn-info rounded-pill ps-4 pe-4 pt-2 pb-2 mt-2" type="submit">
+            update 
+        </button>
+        <a class="btn btn-info rounded-pill ps-4 pe-4 pt-2 pb-2 mt-2" href="/admin/category"> Go Back</a>
+        <br><br>
+    
+       
+    </div>
+</form>
+
+</div>
+</div>
+</div> 
+</div> 
+</div> 
+</div> 
+</section> 
+
+</main>
+<script src="/public/assets/js/vendor/jquery-3.6.0.min.js"></script>
+<script src="/public/assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="/public/assets/js/vendor/select2.min.js"></script>
+<script src="/public/assets/js/vendor/perfect-scrollbar.js"></script>
+<script src="/public/assets/js/vendor/jquery.fullscreen.min.js"></script>
+
+<script src="/public/assets/js/main.js" type="text/javascript"></script>
+
+
+    
+</body>
+</html>
+
