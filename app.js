@@ -11,7 +11,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// Database connection
+// Database 
+
+
 mongoose.connect("mongodb://127.0.0.1:27017/meredien", {
     useNewUrlParser: true,
     useUnifiedTopology: true
