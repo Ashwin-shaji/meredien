@@ -10,7 +10,7 @@ const logSession = (req,res,next)=>{
  
  const isLogout=async(req,res,next)=>{
     try{
-        if(req.session.email){
+        if(req.session.user){
             res.redirect('/home');
         }
         else{
@@ -49,8 +49,8 @@ const logSession = (req,res,next)=>{
  }
  
  const isAuthenticated = (req, res, next) => {
-    console.log(req.session.email)
-    if (req.session.email) {
+    console.log(req.session.user)
+    if (req.session.user) {
      
       return res.redirect("/");
     } else {

@@ -7,7 +7,8 @@ const productModel=require('../models/productModel')
 
 const generateOTP=require('../util/otpgenerator');
 const { sendInsertOtp } = require('../util/insertotp');
-const userModel=require('../models/userModel')
+const userModel=require('../models/userModel');
+const addressModel = require('../models/addressModel');
 
 
 
@@ -183,11 +184,94 @@ const loadProduct=async(req,res)=>{
 
 const loadUserProfile=async(req,res)=>{
     try {
-        res.render('account')
+        const user=await userModel.findById(req.session.user)
+        
+        res.render('account',{user})
     } catch (error) {
         console.log(error.message);
     }
 }
+
+const EditProfile=async(req,res)=>{
+try{
+const {name,mobile}=req.body
+const user=await userModel.findByIdAndUpdate(req.session.user,{name:name,mobile:mobile})
+res.redirect('/userprofile')
+
+}
+catch(err){
+   console.log(err.message); 
+}
+}
+
+
+  
+
+const Addaddress = async (req, res) => {
+    try {
+        const { addressType, name, city, state, landMark, mobile, alt, Address, pincode } = req.body;
+
+        console.log(req.body);
+
+     
+        const pincodeRegex = /^\d{6}$/;
+        if (!pincodeRegex.test(pincode)) {
+            return res.status(400).send({ message: 'Invalid pincode format' });
+        }
+
+      
+        const newAddress = { addressType, name, city, state, landMark, mobile, alt, Address, pincode };
+        console.log(newAddress);
+
+        const existingAddresses = await addressModel.findOne({ userId: req.session.user });
+        console.log('Existing addresses:', existingAddresses);
+
+
+
+        
+if(mobile === alt){
+     // req.flash('error','phone and alternate phone must be different.');
+     return res.redirect('/userprofile')
+}
+        if (existingAddresses) {
+            // Ensure address array is initialized
+            if (!existingAddresses.address) {
+                existingAddresses.address = [];
+            }
+
+            // Add the new address to the existing address array
+            existingAddresses.address.push(newAddress);
+            await existingAddresses.save();
+        } else {
+            // Create a new address record if none exists
+            console.log('Creating a new address record');
+            const address = new addressModel({
+                userId: req.session.user,
+                address: [newAddress]
+            });
+            await address.save();
+        }
+
+        console.log('Address added successfully');
+        res.redirect('/userprofile');
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send({ message: 'Server error', error: error.message });
+    }
+};
+
+
+const editAddress=async (req,res)=>{
+    try {
+        res.render('/editAddress')
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send({ message: 'Server error', error: error.message });
+    }
+}
+
+
 
 
 const loadShop=async(req,res)=>{
@@ -199,6 +283,24 @@ const loadShop=async(req,res)=>{
         }
 }
 
+const search = async (req, res) => {
+    try {
+        const product = await productModel.findOne({ name: req.body.productName });
+        console.log(product);
+        if (product) {
+            res.status(200).json({ product });
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+
 
 module.exports={
     securePassword,
@@ -206,6 +308,7 @@ module.exports={
     insertUser,
     loadotp,
     loadlogin,
+    EditProfile,
    // loadhome,
     verifyOtp,
     loadHome,
@@ -214,5 +317,8 @@ module.exports={
     loadProduct,
     resentotp,
     loadUserProfile,
-    loadShop
+    loadShop,
+    Addaddress,
+    editAddress,
+search
 }

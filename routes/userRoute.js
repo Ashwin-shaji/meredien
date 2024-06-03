@@ -26,22 +26,37 @@ user_route.post('/otp', userController.resentotp);
 
 user_route.get('/logout', userController.logout);
 
-// Home Route
+
 user_route.get('/home', userController.loadHome);
 
-// Product Detail Route
+
 user_route.get('/productdetail', userController.loadProduct);
 
-// User Profile Route
-user_route.get('/userprofile', userController.loadUserProfile);
 
-// Cart Route
+user_route.get('/userprofile', userController.loadUserProfile);
+user_route.post('/userprofile', userController.EditProfile);
+
+user_route.post('/addaddress',userController.Addaddress);
+
+user_route.get('/editaddress',userController.editAddress);
+
+
+
+
+
 user_route.get('/cart', cartController.loadCart);
 
-// Shop Route
-user_route.get('/shop', userController.loadShop);
 
-// Google Authentication Routes
+user_route.get('/shop', userController.loadShop);
+user_route.post('/search', userController.search);
+
+
+
+
+
+
+
+
 user_route.get('/google',
     passport.authenticate('google', { scope: ['email', 'profile'] })
 );

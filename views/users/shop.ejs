@@ -198,21 +198,13 @@
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
-                            <form action="#">
-                                <select class="select-active">
-                                    <option>All Categories</option>
-                                    <option>Women's</option>
-                                    <option>Men's</option>
-                                    <option>Cellphones</option>
-                                    <option>Computer</option>
-                                    <option>Electronics</option>
-                                    <option> Accessories</option>
-                                    <option>Home & Garden</option>
-                                    <option>Luggage</option>
-                                    <option>Shoes</option>
-                                    <option>Mother & Kids</option>
+                            <form id="searchForm">
+                                <select class="select-active" onchange="search(this.value)">
+                                    <option value="">Click to Search</option>
+                                    <% for (let i = 0; i < product.length; i++) { %>  
+                                        <option value="<%= product[i].name %>"><%= product[i].name %></option>
+                                    <% } %> 
                                 </select>
-                                <input type="text" placeholder="Search for items...">
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -826,6 +818,9 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
+
                                 <div class="sort-by-cover">
                                     <div class="sort-by-product-wrap">
                                         <div class="sort-by">
@@ -844,10 +839,21 @@
                                             <li><a href="#">Avg. Rating</a></li>
                                         </ul>
                                     </div>
+
+
+
+
+                                  
+
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
-                        <div class="row product-grid-3">
+                        <div class="row product-grid-3" id="product_display">
                             <%for(let i=0;i<product.length;i++){%>
                             <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                                 <div class="product-cart-wrap mb-30">
@@ -1384,7 +1390,7 @@
                             <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
                         </div>
                         <!-- Product sidebar Widget -->
-                        <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
+                        <!-- <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
                             <div class="widget-header position-relative mb-20 pb-10">
                                 <h5 class="widget-title mb-10">New products</h5>
                                 <div class="bt-1 border-color-1"></div>
@@ -1432,7 +1438,7 @@
                                 <span>Women Zone</span>
                                 <h4>Save 17% on <br>Office Dress</h4>
                                 <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -1589,6 +1595,84 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=3.4"></script>
     <script src="./assets/js/shop.js?v=3.4"></script>
+    <script>
+         function search(name) {
+    fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productName: name })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        const productDisplay = document.getElementById('product_display');
+        productDisplay.innerHTML = ''; // Clear existing products
+
+        if (!data.product) {
+            productDisplay.innerHTML = '<p>No products found.</p>';
+            return;
+        }
+
+        const product = data.product;
+        const productHtml = `
+            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                <div class="product-cart-wrap mb-30">
+                    <div class="product-img-action-wrap">
+                        <div class="product-img product-img-zoom">
+                            <a href="productdetail">
+                                <img class="default-img" src="../uploads/productImages/${product.images[0]}" alt="">
+                                <img class="hover-img" src="../uploads/productImages/${product.images[1]}" alt="">
+                            </a>
+                        </div>
+                        <div class="product-action-1">
+                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                <i class="fi-rs-search"></i></a>
+                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                            <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                        </div>
+                        <div class="product-badges product-badges-position product-badges-mrg">
+                            <span class="hot">Hot</span>
+                        </div>
+                    </div>
+                    <div class="product-content-wrap">
+                        <h2><a href="/productdetail?id=${product._id}">${product.name}</a></h2>
+                        <div class="rating-result" title="90%">
+                            <span>
+                                <span>90%</span>
+                            </span>
+                        </div>
+                        <div class="product-price">
+                            <span>Rs.${product.price} </span>
+                            <span class="old-price">Rs.${product.discountPrice}</span>
+                        </div>
+                        <div class="product-action-1 show">
+                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        productDisplay.insertAdjacentHTML('beforeend', productHtml);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
 </body>
 
 </html>
