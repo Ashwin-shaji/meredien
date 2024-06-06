@@ -337,18 +337,18 @@
         }
     
         function validateName() { 
-        var nameInput = document.getElementById("name"); 
-        var name = nameInput.value.trim();
-        var nameRegex = /^[A-Z][a-z]* [A-Z][a-z]*$/; 
+    var nameInput = document.getElementById("name"); 
+    var name = nameInput.value.trim();
+    var nameRegex = /^[a-zA-Z]+ [a-zA-Z]+$/; 
 
-        if (!nameRegex.test(name)) {
-            showError("name", "Name must contain only letters, with the first letter of both the first name and last name being uppercase, and a space between them.");
-            return false;
-        } else {
-            hideError("name");
-            return true;
-        }
+    if (!nameRegex.test(name)) {
+        showError("name", "Name must contain only letters and a space between the first name and last name.");
+        return false;
+    } else {
+        hideError("name");
+        return true;
     }
+}
 
     
         function validateEmail() {

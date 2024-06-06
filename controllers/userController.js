@@ -14,11 +14,9 @@ const addressModel = require('../models/addressModel');
 
 
 const securePassword = async(password)=>{
-
     try{
         const passwordHash = await bcrypt.hash(password, 10);
         return passwordHash;
-
     } catch(error){
         console.log(error.message);
     }
@@ -96,15 +94,7 @@ const insertUser=async(req,res)=>{
 }
 
 
-//home
 
-// const loadhome=async(req,res)=>{
-//     try {
-//         res.render('home')
-//     } catch (error) {
-//         console.log(error.message);   
-//     }
-// }
 
 const resentotp=async(req,res)=>{
     try {
@@ -150,11 +140,13 @@ const verifyLogin = async (req, res) => {
         const data = { email, password, }
 
         const userData = await User.findOne({ email: email })
+      
 
         if (userData) {
             if (data.password === userData.password) {
                 req.session.user=userData._id
                 res.redirect('/home',)
+                
             } else {
                 res.render('login', { message: 'Password is not matching' })
             }
@@ -298,7 +290,59 @@ const search = async (req, res) => {
     }
 };
 
+const sort = async (req, res) => {
+    try {
+        const sortBy = req.body.sort;
+        let sortQuery;
 
+        switch (sortBy) {
+            case 'aA - zZ':
+                sortQuery = { name: 1 };
+                break;
+            case 'zz-aa':
+                sortQuery = { name: -1 };
+                break;
+            case 'low-to-high':
+                sortQuery = { price: 1 };
+                break;
+            case 'high-to-low':
+                sortQuery = { price: -1 };
+                break;
+            case 'release-date':
+                sortQuery = { releaseDate: -1 };
+                break;
+            case 'avg-rating':
+                sortQuery = { avgRating: -1 };
+                break;
+            case 'featured':
+            default:
+                sortQuery = {};  // No specific sort, default or featured sort logic
+                break;
+        }
+
+        // Assuming you have a Product model and you are sorting products
+        const product= await productModel.find().sort(sortQuery);
+        console.log(product);
+        res.status(200).json({product});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'An error occurred while sorting products.' });
+    }
+};
+
+const catfil=async(req,res)=>{
+    try {
+        const product = await productModel.findMany({ name: req.body.category });
+        console.log(product);
+        if (product) {
+            res.status(200).json({ product });
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 
 
@@ -320,5 +364,7 @@ module.exports={
     loadShop,
     Addaddress,
     editAddress,
-search
+    search,
+    sort,
+    catfil
 }

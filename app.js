@@ -7,6 +7,8 @@ const path = require('path');
 
 const app = express();
 
+const nocache=require('nocache')
+
 // Set view engine and views directory
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -37,6 +39,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+// Use nocache middleware for all routes
+app.use(nocache());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

@@ -824,33 +824,23 @@
                                 <div class="sort-by-cover">
                                     <div class="sort-by-product-wrap">
                                         <div class="sort-by">
-                                            <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                            <span><i class="fi-rs-apps-sort"></i> Sort by:</span>
                                         </div>
                                         <div class="sort-by-dropdown-wrap">
-                                            <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                            <select id="sort-by" name="sort-by" onchange="handleSortChange(this.value)">
+                                                <!-- <option value="featured">Featured</option> -->
+                                                <option value="low-to-high">Price: Low to High</option>
+                                                <option value="high-to-low">Price: High to Low</option>
+                                                <option value="release-date">New arrivals </option>
+                                                <option value="avg-rating">Avg. Rating</option>
+                                                <option value="aA - zZ">aA - zZ</option>
+                                                <option value="zz-aa">zZ - aA</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="sort-by-dropdown">
-                                        <ul>
-                                            <li><a class="active" href="#">Featured</a></li>
-                                            <li><a href="#">Price: Low to High</a></li>
-                                            <li><a href="#">Price: High to Low</a></li>
-                                            <li><a href="#">Release Date</a></li>
-                                            <li><a href="#">Avg. Rating</a></li>
-                                        </ul>
-                                    </div>
-
-
-
-
-                                  
-
-
-
-
-
-
                                 </div>
+
+
                             </div>
                         </div>
                         <div class="row product-grid-3" id="product_display">
@@ -1335,16 +1325,16 @@
                     <div class="col-lg-3 primary-sidebar sticky-sidebar">
                         <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
-                            <ul class="categories">
-                                <li><a href="shop-grid-right.html">Shoes & Bags</a></li>
-                                <li><a href="shop-grid-right.html">Blouses & Shirts</a></li>
-                                <li><a href="shop-grid-right.html">Dresses</a></li>
-                                <li><a href="shop-grid-right.html">Swimwear</a></li>
-                                <li><a href="shop-grid-right.html">Beauty</a></li>
-                                <li><a href="shop-grid-right.html">Jewelry & Watch</a></li>
-                                <li><a href="shop-grid-right.html">Accessories</a></li>
-                            </ul>
+                            <div class="categories-dropdown">
+                                <select class="select-active" onchange="catfil(this.value)">
+                                    <option value="">Categories</option>
+                                    <% for (let i = 0; i < product.length; i++) { %>  
+                                        <option value="<%= product[i].category %>"><%= product[i].category %></option>
+                                    <% } %> 
+                                </select>
+                            </div>
                         </div>
+                        
                         <!-- Fillter By Price -->
                         <div class="sidebar-widget price_range range mb-30">
                             <div class="widget-header position-relative mb-20 pb-10">
@@ -1596,6 +1586,75 @@
     <script src="./assets/js/main.js?v=3.4"></script>
     <script src="./assets/js/shop.js?v=3.4"></script>
     <script>
+       function handleSortChange(sort) {
+    fetch('/sort', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ sort: sort })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        const productDisplay = document.getElementById('product_display');
+        productDisplay.innerHTML = ''; // Clear existing products
+
+        if (data.product.length <= 0) {
+            productDisplay.innerHTML = '<p>No products found.</p>';
+            return;
+        }
+
+        data.product.forEach(product => {
+            const productHtml = `
+                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                    <div class="product-cart-wrap mb-30">
+                        <div class="product-img-action-wrap">
+                            <div class="product-img product-img-zoom">
+                                <a href="productdetail">
+                                    <img class="default-img" src="../uploads/productImages/${product.images[0]}" alt="">
+                                    <img class="hover-img" src="../uploads/productImages/${product.images[1]}" alt="">
+                                </a>
+                            </div>
+                            <div class="product-action-1">
+                                <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                    <i class="fi-rs-search"></i></a>
+                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                            </div>
+                            <div class="product-badges product-badges-position product-badges-mrg">
+                                <span class="hot">Hot</span>
+                            </div>
+                        </div>
+                        <div class="product-content-wrap">
+                            <h2><a href="/productdetail?id=${product._id}">${product.name}</a></h2>
+                            <div class="rating-result" title="90%">
+                                <span>
+                                    <span>90%</span>
+                                </span>
+                            </div>
+                            <div class="product-price">
+                                <span>Rs.${product.price} </span>
+                                <span class="old-price">Rs.${product.discountPrice}</span>
+                            </div>
+                            <div class="product-action-1 show">
+                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productDisplay.insertAdjacentHTML('beforeend', productHtml);
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+
          function search(name) {
     fetch('/search', {
         method: 'POST',
@@ -1614,7 +1673,7 @@
             productDisplay.innerHTML = '<p>No products found.</p>';
             return;
         }
-
+console.log(data.product,'hiii');
         const product = data.product;
         const productHtml = `
             <div class="col-lg-4 col-md-4 col-12 col-sm-6">
@@ -1662,6 +1721,73 @@
 }
 
 
+
+
+function catfil(category) {
+    fetch('/cat_fil', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ category: category })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        const productDisplay = document.getElementById('product_display');
+        productDisplay.innerHTML = ''; // Clear existing products
+
+        if (data.product.length <= 0) {
+            productDisplay.innerHTML = '<p>No products found.</p>';
+            return;
+        }
+
+        data.product.forEach(product => {
+            const productHtml = `
+                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                    <div class="product-cart-wrap mb-30">
+                        <div class="product-img-action-wrap">
+                            <div class="product-img product-img-zoom">
+                                <a href="/productdetail?id=${product._id}">
+                                    <img class="default-img" src="../uploads/productImages/${product.images[0]}" alt="">
+                                    <img class="hover-img" src="../uploads/productImages/${product.images[1]}" alt="">
+                                </a>
+                            </div>
+                            <div class="product-action-1">
+                                <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                    <i class="fi-rs-search"></i></a>
+                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                            </div>
+                            <div class="product-badges product-badges-position product-badges-mrg">
+                                <span class="hot">Hot</span>
+                            </div>
+                        </div>
+                        <div class="product-content-wrap">
+                            <h2><a href="/productdetail?id=${product._id}">${product.name}</a></h2>
+                            <div class="rating-result" title="90%">
+                                <span>
+                                    <span>90%</span>
+                                </span>
+                            </div>
+                            <div class="product-price">
+                                <span>Rs.${product.price}</span>
+                                <span class="old-price">Rs.${product.discountPrice}</span>
+                            </div>
+                            <div class="product-action-1 show">
+                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productDisplay.insertAdjacentHTML('beforeend', productHtml);
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
 
 
 

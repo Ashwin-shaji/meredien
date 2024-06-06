@@ -24,6 +24,7 @@ const loadAddProduct=async(req,res)=>{
 
     }
 }
+
 const addProduct = async (req, res) => {
     try {
         const images = [];

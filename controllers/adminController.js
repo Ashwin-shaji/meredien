@@ -16,7 +16,8 @@ const loadLogin=async(req,res)=>{
 
 const loadLogout = async(req,res)=>{
     try{
-        req.session.user_id =false;
+     //   req.session.user_id =false;
+     req.session.destroy()
         res.redirect('/admin/login')
     } catch(error){
         console.log(error.message);
@@ -30,9 +31,11 @@ const verifyLogin = async (req, res) => {
         const { email, password } = req.body;
         // console.log(email, password);
         const adminData = await Admin.findOne({email:email })
-        // console.log(adminData);
+   
         if (adminData) {           
             if (adminData.password===password) {
+                req.session.adminId = adminData._id
+               console.log( req.session.adminId);
                 res.redirect('/admin/dashboard');
             } else { 
                 res.render('adminLogin', { message: 'Password is not matching' });
@@ -43,7 +46,7 @@ const verifyLogin = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error'); // Send an error response
+        res.status(500).send('Internal Server Error'); 
     }
 };
 
@@ -77,8 +80,8 @@ const blockUser = async (req, res) => {
         const id = req.query.id;
         const userData = await User.findById(id);
 
-        if(userData){ // Here you wrote "uswrData" instead of "userData"
-            userData.isBlocked = true; // Update the user's isBlocked field to true
+        if(userData){ 
+            userData.isBlocked = true;
             await userData.save();
 
             res.redirect('/admin/userlist');

@@ -2,6 +2,7 @@ const express=require('express');
 const adminRoute=express();
 const multer=require('multer');
 
+const auth=require('../middlewares/adminAuth')
 adminRoute.set('view engine', 'ejs');
 adminRoute.set('views', './views/admin');
 
@@ -29,25 +30,25 @@ const upload=multer({storage:storage}).array('images', 3);
 
 //login
 
-adminRoute.get('/login',adminController.loadLogin);
+adminRoute.get('/login',auth.isLogout,adminController.loadLogin);
 adminRoute.post('/login',adminController.verifyLogin);
 
 
 adminRoute.get('/logout',adminController.loadLogout);
 
 
-adminRoute.get('/dashboard',adminController.loadDashboard)
+adminRoute.get('/dashboard',auth.isLogin,adminController.loadDashboard)
 
 
-adminRoute.get('/category',category.loadCategory)
-adminRoute.post('/category',category.createCategory);
+adminRoute.get('/category',auth.isLogin,category.loadCategory)
+adminRoute.post('/category',auth.isLogin,category.createCategory);
 
-adminRoute.get('/edit-cate', category.editCategoryLoad);
+adminRoute.get('/edit-cate',auth.isLogin, category.editCategoryLoad);
 adminRoute.post('/edit-cate',category.updateCategory)
 
 adminRoute.get('/delete-cate',category.deleteCategory);
 
-adminRoute.get('/userlist',adminController.userlist);
+adminRoute.get('/userlist',auth.isLogin,adminController.userlist);
 
 
 
