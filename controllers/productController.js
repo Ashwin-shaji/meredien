@@ -110,6 +110,7 @@ const loadEdit = async (req, res) => {
     }
 };
 
+  
 
 const editProduct = async (req, res) => {
     try {
