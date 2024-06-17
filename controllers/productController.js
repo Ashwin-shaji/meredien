@@ -36,15 +36,6 @@ const addProduct = async (req, res) => {
         } else {
             console.log('No files were uploaded');    
         }
-
-        console.log(req.body.name,
-            req.body.description,
-            images,   
-            req.body.stock,
-            req.body.category,
-            req.body.price,
-        req.body.discountPrice);
-       
         let product = {};
         product = new productModel({
             name: req.body.name,
@@ -152,6 +143,7 @@ const editProduct = async (req, res) => {
         res.status(500).send('An error occurred while updating the product.');
     }
 };
+
 
 
 

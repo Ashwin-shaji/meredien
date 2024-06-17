@@ -15,6 +15,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/main.css?v=3.4">
+
+
+
+ <!-- Other head elements -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body>
@@ -879,7 +886,7 @@
                                             <span class="old-price">Rs.<%= product[i].discountPrice %></span>
                                         </div>
                                         <div class="product-action-1 show">
-                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            <button aria-label="Add To Cart" class="action-btn hover-up" onclick="addCart('<%= product[i]._id%>')"><i class="fi-rs-shopping-bag-add"  ></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1327,9 +1334,9 @@
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                             <div class="categories-dropdown">
                                 <select class="select-active" onchange="catfil(this.value)">
-                                    <option value="">Categories</option>
-                                    <% for (let i = 0; i < product.length; i++) { %>  
-                                        <option value="<%= product[i].category %>"><%= product[i].category %></option>
+                                    
+                                    <% for (let i = 0; i < category.length; i++) { %>  
+                                        <option value="<%= category[i]._id%>"><%= category[i].name %></option>
                                     <% } %> 
                                 </select>
                             </div>
@@ -1585,6 +1592,10 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=3.4"></script>
     <script src="./assets/js/shop.js?v=3.4"></script>
+
+
+      <!-- Your body content -->
+      <script src="path/to/your/javascript/file.js"></script>
     <script>
        function handleSortChange(sort) {
     fetch('/sort', {
@@ -1707,7 +1718,7 @@ console.log(data.product,'hiii');
                             <span class="old-price">Rs.${product.discountPrice}</span>
                         </div>
                         <div class="product-action-1 show">
-                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                            <a aria-label="Add To Cart" class="action-btn hover-up" href="/addcart"><i class="fi-rs-shopping-bag-add"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1724,6 +1735,7 @@ console.log(data.product,'hiii');
 
 
 function catfil(category) {
+    
     fetch('/cat_fil', {
         method: 'POST',
         headers: {
@@ -1790,7 +1802,41 @@ function catfil(category) {
 }
 
 
-
+function addCart(id) {
+    $.ajax({
+        url: "/addcart",
+        method: "post",
+        data: { id },
+        success: (response) => {
+            if (response.status === true) {
+                
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Product has been added to your cart.',
+                    icon: 'success',
+                    confirmButtonText: 'View Cart'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/cart";
+                    }
+                });
+            } else if (response.status === "viewCart") {
+                Swal.fire({
+                    title: 'Already in Cart',
+                    text: 'This product is already in your cart. Would you like to view your cart?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'View Cart',
+                    cancelButtonText: 'Continue Shopping'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/cart";
+                    }
+                });
+            }
+        }
+    });
+}
 
 
 

@@ -9,6 +9,7 @@ const generateOTP=require('../util/otpgenerator');
 const { sendInsertOtp } = require('../util/insertotp');
 const userModel=require('../models/userModel');
 const addressModel = require('../models/addressModel');
+const categoryModel = require('../models/categoryModel');
 
 
 
@@ -74,17 +75,17 @@ const insertUser=async(req,res)=>{
             req.session.Data=data;
             console.log(data)
 
-            //  Send OTP to user's email
+        
             const sentEmailUser = await sendInsertOtp(email, otp);
             console.log(sentEmailUser,"emailsent");
             if (sentEmailUser) {
              
-                // Redirect to OTP verification page
+                
                 return res.redirect('/otp');
             }
         } else {
             console.log("else worked in email sent");
-            // If passwords don't match, render the register page with an error message
+        
             return res.render('registration', { error: 'Passwords do not match.' });
         }
         
@@ -177,8 +178,8 @@ const loadProduct=async(req,res)=>{
 const loadUserProfile=async(req,res)=>{
     try {
         const user=await userModel.findById(req.session.user)
-        
-        res.render('account',{user})
+        const addresses=await addressModel.findOne({userId: req.session.user})
+        res.render('account',{user,addresses})
     } catch (error) {
         console.log(error.message);
     }
@@ -254,6 +255,11 @@ if(mobile === alt){
 };
 
 
+
+
+
+
+
 const editAddress=async (req,res)=>{
     try {
         res.render('/editAddress')
@@ -269,7 +275,10 @@ const editAddress=async (req,res)=>{
 const loadShop=async(req,res)=>{
     try {
         const product=await productModel.find({is_deleted:true})
-        res.render('shop',{error:null,product})
+        const category=await categoryModel.find({is_active:true})
+       
+        console.log(category);
+        res.render('shop',{error:null,product,category})
     } catch (error) {
         console.log(error.message);
         }
@@ -332,11 +341,13 @@ const sort = async (req, res) => {
 
 const catfil=async(req,res)=>{
     try {
-        const product = await productModel.findMany({ name: req.body.category });
+        const product = await productModel.find({category:req.body.category});
         console.log(product);
         if (product) {
+            console.log('hellow');
             res.status(200).json({ product });
         } else {
+            console.log('hiii');
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
@@ -366,5 +377,6 @@ module.exports={
     editAddress,
     search,
     sort,
-    catfil
+    catfil,
+   
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const userController = require("../controllers/userController");
 const cartController = require('../controllers/cartController');
+const checkoutController=require('../controllers/checkoutController')
 
 const user_route = express.Router();
 
@@ -46,12 +47,21 @@ user_route.get('/editaddress',auth.isLogin,userController.editAddress);
 
 
 user_route.get('/cart',auth.isLogin,cartController.loadCart);
+user_route.post('/addcart',auth.isLogin,cartController.add_to_cart);
 
 
 user_route.get('/shop',auth.isLogin,userController.loadShop);
 user_route.post('/search', userController.search);
 user_route.post('/sort',userController.sort);
 user_route.post('/cat_fil',userController.catfil)
+
+
+user_route.post('/cartadd',cartController.increment);
+user_route.post('/decrement',cartController.decrement);
+user_route.post('/pro-del',cartController.removeCart);
+
+
+user_route.get('/checkout',checkoutController.loadCheckout)
 
 
 
