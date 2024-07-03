@@ -70,7 +70,7 @@ const orderSchema=new mongoose.Schema({
         },
         homeAddress:{
             type: String,
-            required: true
+           
         },
         landMark: {
             type: String,
@@ -84,7 +84,7 @@ const orderSchema=new mongoose.Schema({
             type: Number,
             required: true
         },
-        phone: {
+        mobile: {
             type: String,
             required: true
         },

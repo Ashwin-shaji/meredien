@@ -13,11 +13,6 @@ const productSchema=new mongoose.Schema({
     images:[{
         type:String
     }],
-    // category: {
-    //     type: String, // Example: Assuming category is of type String
-    //     required: true // Example: If category is required
-    // },
-
     category:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'category',

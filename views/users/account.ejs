@@ -15,6 +15,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/main.css?v=3.4">
+
+
+
+
+    
 </head>
 
 <body>
@@ -471,9 +476,13 @@
                                         <li class="nav-item">
                                             <a class="nav-link" id="add-address" data-bs-toggle="tab" href="#addaddress" role="tab" aria-controls="addaddress" aria-selected="true"><i class="fi-rs-marker mr-10"></i>Add Address</a>
                                         </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/resetPassword"><i class="fi-rs-sign-out mr-10"></i>Change Password</a>
+                                        </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="page-login-register.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                            <a class="nav-link" href="/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -502,33 +511,27 @@
                                                             <tr>
                                                                 <th>Order</th>
                                                                 <th>Date</th>
+                                                                <th>Order Number</th>
                                                                 <th>Status</th>
+                                                                <th>Payment Type</th>
                                                                 <th>Total</th>
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            <%for(let i=0;i<orders.length;i++){%>
                                                             <tr>
-                                                                <td>#1357</td>
-                                                                <td>March 45, 2020</td>
-                                                                <td>Processing</td>
-                                                                <td>$125.00 for 2 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                                                <td><%= i+1 %></td>
+                                                                <td><%= orders[i].orderDate %></td>
+                                                                <td><%= orders[i].orderNumber %></td>
+                                                                <td><%= orders[i].orderType %></td>
+                                                                <td><%= orders[i].status %></td>
+                                                                <td><%= orders[i].totalAmount %></td>
+                                                                <td><a href="/orderview?id=<%=orders[i]._id%>" class="btn-small d-block">View</a></td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>#2468</td>
-                                                                <td>June 29, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$364.00 for 5 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#2366</td>
-                                                                <td>August 02, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$280.00 for 3 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
-                                                            </tr>
+                                                         
+                                                            <% } %>
+                                                         
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -572,9 +575,30 @@
                                                         <h5 class="mb-0"><%= addresses.address[i].name %></h5>
                                                     </div>
                                                     <div class="card-body">
-                                                        <address>3522 Interstate<br> 75 Business Spur,<br> Sault Ste. <br>Marie, MI 49783</address>
-                                                        <p>New York</p>
-                                                        <a href="/editaddress" class="btn-small">Edit</a>
+                                                        <address><%= addresses.address[i].city %>  <br> <%= addresses.address[i].Address %><br>  <%= addresses.address[i].mobile %><br><%= addresses.address[i].pincode %></address>
+                                                        <p><%= addresses.address[i].state %></p>
+                                                        <div class="link-container">
+                                                            <a href="/editAddress?id=<%= addresses.address[i]._id %>" class="btn-small">Edit</a>
+                                                            <span></span>
+                                                            <a href="#" class="btn-small" onclick="openModal('<%= addresses.address[i]._id %>')">Delete</a>
+                                                        </div>
+                                                    
+                                                        <!-- The Modal -->
+                                                        <div id="confirmationModal" class="modal">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <span class="close" onclick="closeModal()">&times;</span>
+                                                                    <h2>Confirm Deletion</h2>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Are you sure you want to delete this address?</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                                                                    <button class="btn btn-confirm" onclick="confirmDelete()">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -598,10 +622,7 @@
                                                             <label>Name <span class="required">*</span></label>
                                                             <input required="" class="form-control square" value="<%=user.name%>" name="name" type="text">
                                                         </div>
-                                                        <!-- <div class="form-group col-md-6">
-                                                            <label>Last Name <span class="required">*</span></label>
-                                                            <input required="" class="form-control square" name="phone">
-                                                        </div> -->
+                                                        
                                                         <div class="form-group col-md-12">
                                                             <label>Mobile <span class="required">*</span></label>
                                                             <input required="" class="form-control square" value="<%=user.mobile%>" name="mobile" type="text">
@@ -610,20 +631,10 @@
                                                             <label>Email Address</label>
                                                             <input class="form-control square" value="<%= user.email %>" name="email" type="email" readonly />
                                                         </div>
-                                                        
-                                                        <!-- <div class="form-group col-md-12">
-                                                            <label>Current Password <span class="required">*</span></label>
-                                                            <input required="" class="form-control square" name="password" type="password">
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>New Password <span class="required">*</span></label>
-                                                            <input required="" class="form-control square" name="npassword" type="password">
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Confirm Password <span class="required">*</span></label>
-                                                            <input required="" class="form-control square" name="cpassword" type="password">
-                                                        </div> -->
-                                                        <div class="col-md-12">
+                                                        <div class="button-container">
+                                                            <a href="/resetPassword">
+                                                                <button type="button" class="btn default-btn" onclick="showChangePasswordForm()">Change Password</button>
+                                                            </a>
                                                             <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
                                                         </div>
                                                     </div>
@@ -632,6 +643,10 @@
                                         </div>
                                     </div>
 
+
+
+
+                              
 
 
 
@@ -784,6 +799,40 @@
     <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=3.4"></script>
+
+
+
+    <script>
+        let addressIdToDelete = null;
+
+        function openModal(addressId) {
+            addressIdToDelete = addressId;
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            addressIdToDelete = null;
+        }
+
+        function confirmDelete() {
+            if (addressIdToDelete) {
+                window.location.href = `/deleteAddress?addressId=${addressIdToDelete}`;
+            }
+        }
+
+        // Close the modal when the user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+
+
+
 </body>
 
 </html>

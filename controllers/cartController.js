@@ -1,10 +1,12 @@
 const User=require('../models/userModel');
-const product=require('../models/productModel');
 const categoryModel=require('../models/categoryModel')
 const Cart=require('../models/cartModel');
 const productModel = require('../models/productModel');
-
-
+const generateOrder = require("../util/otphandle")
+const addressModel=require('../models/addressModel')
+const generateDate = require("../util/dategenerater");
+const Order=require('../models/orderModel');
+const orderModel = require('../models/orderModel');
 
 const loadCart = async (req, res) => {
     
@@ -216,7 +218,103 @@ const removeCart = async (req, res) => {
 };
 
 
+const addOrder = async (req, res) => {
+    try {
+        const { addressId, checkedOption, paymentOption, totalDis } = req.body;
+console.log(totalDis,'......');
+        if (!addressId || !paymentOption) {
+            return res.json({ status: "fill the options" });
+        }
 
+        if (paymentOption === "cashOnDelivery") {
+            const userData = await User.findById(req.session.user);
+            if (!userData) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const cartData = await Cart.findOne({ userId: userData._id });
+            if (!cartData) {
+                return res.status(404).json({ message: 'Cart not found' });
+            }
+
+            const pdtData = cartData.items.map(item => item);
+            const orderNum = generateOrder.generateOrder();
+
+            const addressData = await addressModel.findOne({ "address._id": addressId });
+            if (!addressData) {
+                return res.status(404).json({ message: 'Address not found' });
+            }
+
+            const index = addressData.address.findIndex(addr => addr._id.toString() === addressId.toString());
+            if (index === -1) {
+                return res.status(404).json({ message: 'Address index not found' });
+            }
+
+            const address = addressData.address[index];
+
+            const date = generateDate();
+
+            for (const item of cartData.items) {
+                const product = await productModel.findById(item.productId);
+                if (product) {
+                    product.countInStock -= item.quantity;
+                    await product.save();
+                }
+            }
+
+            const orderData = new Order({
+                userId: userData._id,
+                orderNumber: orderNum,
+                userEmail: userData.email,
+                items: pdtData,
+                totalAmount: totalDis,
+                orderType: paymentOption,
+                orderDate: date,
+                status: "Processing",
+                shippingAddress: address,
+                coupon: cartData.coupon || undefined,
+                discount: cartData.discount || undefined
+            });
+
+            await orderData.save();
+
+            cartData.items = [];
+            await cartData.save();
+
+            return res.json({ status: true, order: orderData });
+        } else {
+            return res.status(400).json({ message: 'Invalid payment option' });
+        }
+    } catch (error) {
+        console.error('Error in addOrder:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+const orderPlaced=async(req,res)=>{
+    try {
+        const id = req.query.id;
+      
+        const orders = await orderModel.findOne({ orderNumber: id });
+        const pdt = [];
+
+        for (let i = 0; i < orders.items.length; i++) {
+            pdt.push(orders.items[i].productId)
+        }
+
+        const pdtData = [];
+        for (let i = 0; i < pdt.length; i++) {
+            pdtData.push(await productModel.findById( pdt[i]))
+        }
+        console.log(pdtData);
+        res.render('orderPlaced', { orders, pdtData })
+
+    } catch (error) {
+        console.error('Error in orderPlaced:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 
 
 module.exports={
@@ -224,6 +322,9 @@ module.exports={
     add_to_cart,
     increment,
     decrement,
-    removeCart
+    removeCart,
+     addOrder ,
+     orderPlaced
+
 }
 

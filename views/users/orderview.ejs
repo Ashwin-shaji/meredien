@@ -15,6 +15,240 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/main.css?v=3.4">
+
+
+    <style>
+        .steps .step {
+            display: block;
+            width: 100%;
+            margin-bottom: 35px;
+            text-align: center
+        }
+
+        .steps .step .step-icon-wrap {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 80px;
+            text-align: center
+        }
+
+        .steps .step .step-icon-wrap::before,
+        .steps .step .step-icon-wrap::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            width: 50%;
+            height: 3px;
+            margin-top: -1px;
+            background-color: #e1e7ec;
+            content: '';
+            z-index: 1
+        }
+
+        .steps .step .step-icon-wrap::before {
+            left: 0
+        }
+
+        .steps .step .step-icon-wrap::after {
+            right: 0
+        }
+
+        .steps .step .step-icon {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border: 1px solid #e1e7ec;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            color: #374250;
+            font-size: 38px;
+            line-height: 81px;
+            z-index: 5
+        }
+
+        .steps .step .step-title {
+            margin-top: 16px;
+            margin-bottom: 0;
+            color: #606975;
+            font-size: 14px;
+            font-weight: 500
+        }
+
+        .steps .step:first-child .step-icon-wrap::before {
+            display: none
+        }
+
+        .steps .step:last-child .step-icon-wrap::after {
+            display: none
+        }
+
+        .steps .step.completed .step-icon-wrap::before,
+        .steps .step.completed .step-icon-wrap::after {
+            background-color: #333
+        }
+
+        .steps .step.completed .step-icon {
+            border-color: #333;
+            background-color: #333;
+            color: #fff
+        }
+        .steps .step.completed .step-icon:hover {
+            
+            color: #c89979  
+        }
+        
+
+        @media (max-width: 576px) {
+
+            .flex-sm-nowrap .step .step-icon-wrap::before,
+            .flex-sm-nowrap .step .step-icon-wrap::after {
+                display: none
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .flex-md-nowrap .step .step-icon-wrap::before,
+            .flex-md-nowrap .step .step-icon-wrap::after {
+                display: none
+            }
+        }
+
+        @media (max-width: 991px) {
+
+            .flex-lg-nowrap .step .step-icon-wrap::before,
+            .flex-lg-nowrap .step .step-icon-wrap::after {
+                display: none
+            }
+        }
+
+        @media (max-width: 1200px) {
+
+            .flex-xl-nowrap .step .step-icon-wrap::before,
+            .flex-xl-nowrap .step .step-icon-wrap::after {
+                display: none
+            }
+        }
+
+        .bg-faded,
+        .bg-secondary {
+            background-color: #f5f5f5 !important;
+        }
+    </style>
+    <style>
+        .search-result {
+            display: none;
+            position: absolute;
+            height: auto;
+
+        }
+
+        .no-product-found {
+            background-color: rgb(273, 273, 273);
+            position: absolute;
+            display: none;
+            width: 414px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* margin-top: 10px; */
+            padding: 5px 0;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 62.5px;
+
+            z-index: 1;
+        }
+
+        #searchResultsContainer {
+            background-color: rgb(273, 273, 273);
+            position: absolute;
+            z-index: 10;
+            width: 414px;
+            flex-wrap: wrap;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 62.5px;
+
+        }
+
+        .product-container {
+            width: 200px;
+            margin: 10px;
+            text-align: left;
+
+        }
+
+        .product-container img {
+            margin-left: 30px;
+            margin-right: 370px;
+            max-width: 55px;
+            height: auto;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -50px;
+        }
+
+        .product-info p {
+            margin: -2px 37px;
+            margin-left: 40px;
+            font-size: 10px;
+            /* margin-top: 5px; */
+            color: black;
+            font-weight: bold;
+        }
+
+
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .rotate-270 {
+            transform: rotate(270deg);
+        }
+
+        .gradient-custom {
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+        }
+
+        .card-custom {
+            border-bottom-left-radius: 10% 50%;
+            border-top-left-radius: 10% 50%;
+            background-color: #f8f9fa;
+        }
+
+
+        .input-custom {
+            background-color: white;
+        }
+
+        .white-text {
+            color: hsl(52, 0%, 98%);
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .back-button {
+            background-color: hsl(52, 0%, 98%);
+            font-weight: 700;
+            color: black;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body>
@@ -332,19 +566,19 @@
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                             <nav>
                                 <ul>
-                                    <li><a class="active" href="index.html">Home <i class="fi-rs-angle-down"></i></a>
-                                        <ul class="sub-menu">
+                                    <li><a  href="/home">Home </a>
+                                        <!-- <ul class="sub-menu">
                                             <li><a href="index.html">Home 1</a></li>
                                             <li><a href="index-2.html">Home 2</a></li>
                                             <li><a href="index-3.html">Home 3</a></li>
                                             <li><a href="index-4.html">Home 4</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
                                     <li>
                                         <a href="page-about.html">About</a>
                                     </li>
-                                    <li><a href="shop-grid-right.html">Shop <i class="fi-rs-angle-down"></i></a>
-                                        <ul class="sub-menu">
+                                    <li><a href="shop-grid-right.html">Shop <i ></i></a>
+                                        <!-- <ul class="sub-menu">
                                             <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
                                             <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
                                             <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
@@ -362,41 +596,41 @@
                                             <li><a href="shop-cart.html">Shop – Cart</a></li>
                                             <li><a href="shop-checkout.html">Shop – Checkout</a></li>
                                             <li><a href="shop-compare.html">Shop – Compare</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
-                                    <li class="position-static"><a href="#">Mega menu <i class="fi-rs-angle-down"></i></a>
+                                    <li class="position-static"><a href="#">Mega menu <i ></i></a>
                                         <ul class="mega-menu">
-                                            <li class="sub-mega-menu sub-mega-menu-width-22">
-                                                <a class="menu-title" href="#">Women's Fashion</a>
-                                                <ul>
+                                            <!-- <li class="sub-mega-menu sub-mega-menu-width-22">
+                                                <a class="menu-title" href="#">Women's Fashion</a> -->
+                                                <!-- <ul>
                                                     <li><a href="shop-product-right.html">Dresses</a></li>
                                                     <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
                                                     <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
                                                     <li><a href="shop-product-right.html">Wedding Dresses</a></li>
                                                     <li><a href="shop-product-right.html">Prom Dresses</a></li>
                                                     <li><a href="shop-product-right.html">Cosplay Costumes</a></li>
-                                                </ul>
-                                            </li>
+                                                </ul> -->
+                                            <!-- </li>
                                             <li class="sub-mega-menu sub-mega-menu-width-22">
                                                 <a class="menu-title" href="#">Men's Fashion</a>
-                                                <ul>
+                                                 <ul>
                                                     <li><a href="shop-product-right.html">Jackets</a></li>
                                                     <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
                                                     <li><a href="shop-product-right.html">Genuine Leather</a></li>
                                                     <li><a href="shop-product-right.html">Casual Pants</a></li>
                                                     <li><a href="shop-product-right.html">Sweatpants</a></li>
                                                     <li><a href="shop-product-right.html">Harem Pants</a></li>
-                                                </ul>
-                                            </li>
+                                                </ul> -->
+                                            <!-- </li>
                                             <li class="sub-mega-menu sub-mega-menu-width-22">
-                                                <a class="menu-title" href="#">Technology</a>
-                                                <ul>
+                                                <a class="menu-title" href="#">Technology</a> -->
+                                                <!-- <ul>
                                                     <li><a href="shop-product-right.html">Gaming Laptops</a></li>
                                                     <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
                                                     <li><a href="shop-product-right.html">Tablets</a></li>
                                                     <li><a href="shop-product-right.html">Laptop Accessories</a></li>
                                                     <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                                </ul>
+                                                </ul> 
                                             </li>
                                             <li class="sub-mega-menu sub-mega-menu-width-34">
                                                 <div class="menu-banner-wrap">
@@ -420,9 +654,9 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                    </li>
-                                    <li><a href="blog-category-grid.html">Blog <i class="fi-rs-angle-down"></i></a>
-                                        <ul class="sub-menu">
+                                    </li> -->
+                                    <!-- <li><a href="blog-category-grid.html">Blog <i class="fi-rs-angle-down"></i></a> -->
+                                        <!-- <ul class="sub-menu">
                                             <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
                                             <li><a href="blog-category-list.html">Blog Category List</a></li>
                                             <li><a href="blog-category-big.html">Blog Category Big</a></li>
@@ -434,9 +668,9 @@
                                                     <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
                                                 </ul>
                                             </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Pages <i class="fi-rs-angle-down"></i></a>
+                                        </ul> -->
+                                    <!-- </li> -->
+                                    <!-- <li><a href="#">Pages <i class="fi-rs-angle-down"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="page-about.html">About Us</a></li>
                                             <li><a href="page-contact.html">Contact</a></li>
@@ -447,11 +681,11 @@
                                             <li><a href="page-terms.html">Terms of Service</a></li>
                                             <li><a href="page-404.html">404 Page</a></li>
                                         </ul>
-                                    </li>
-                                    <li>
+                                    </li> -->
+                                    <!-- <li>
                                         <a href="page-contact.html">Contact</a>
-                                    </li>
-                                </ul>
+                                    </li> -->
+                                <!-- </ul> -->
                             </nav>
                         </div>
                     </div>
@@ -522,6 +756,10 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </header>
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
@@ -595,35 +833,35 @@
                                 </ul>
                             </li>
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
-                                <ul class="dropdown">
+                                <!-- <ul class="dropdown">
                                     <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Dresses</a></li>
                                             <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
                                             <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
                                             <li><a href="shop-product-right.html">Women's Sets</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
                                     <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
-                                        <ul class="dropdown">
+                                        <!-- <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Jackets</a></li>
                                             <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
                                             <li><a href="shop-product-right.html">Genuine Leather</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
                                     <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
-                                        <ul class="dropdown">
+                                        <!-- <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Gaming Laptops</a></li>
                                             <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
                                             <li><a href="shop-product-right.html">Tablets</a></li>
                                             <li><a href="shop-product-right.html">Laptop Accessories</a></li>
                                             <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
                                 </ul>
                             </li>
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
-                                <ul class="dropdown">
+                                <!-- <ul class="dropdown">
                                     <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
                                     <li><a href="blog-category-list.html">Blog Category List</a></li>
                                     <li><a href="blog-category-big.html">Blog Category Big</a></li>
@@ -635,10 +873,10 @@
                                             <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </ul> -->
                             </li>
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Pages</a>
-                                <ul class="dropdown">
+                                <!-- <ul class="dropdown">
                                     <li><a href="page-about.html">About Us</a></li>
                                     <li><a href="page-contact.html">Contact</a></li>
                                     <li><a href="page-account.html">My Account</a></li>
@@ -647,15 +885,15 @@
                                     <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
                                     <li><a href="page-terms.html">Terms of Service</a></li>
                                     <li><a href="page-404.html">404 Page</a></li>
-                                </ul>
+                                </ul> -->
                             </li>
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Language</a>
-                                <ul class="dropdown">
+                                <!-- <ul class="dropdown">
                                     <li><a href="#">English</a></li>
                                     <li><a href="#">French</a></li>
                                     <li><a href="#">German</a></li>
                                     <li><a href="#">Spanish</a></li>
-                                </ul>
+                                </ul> -->
                             </li>
                         </ul>
                     </nav>
@@ -688,217 +926,327 @@
             <div class="container">
                 <div class="breadcrumb">
                     <a href="index.html" rel="nofollow">Home</a>
-                    <span></span> Shop
-                    <span></span> Checkout
+                    <span></span> Home
+                    <span></span> user profile
+                    <span></span> order view
                 </div>
             </div>
         </div>
-        <section class="mt-50 mb-50">
-            <div class="container">
-                <div class="row">
-                   
-                    <div class="col-lg-6">
-                        <div class="toggle_info">
-                            <span><i class="fi-rs-label mr-10"></i><span class="text-muted">Have a coupon?</span> <a href="#coupon" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Click here to enter your code</a></span>
-                        </div>
-                        <div class="panel-collapse collapse coupon_form " id="coupon">
-                            <div class="panel-body">
-                                <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
-                                <form method="post">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Enter Coupon Code...">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn  btn-md" name="login">Apply Coupon</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="divider mt-50 mb-50"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-25">
-                            <h4>Billing Details</h4>
-                        </div>
-                        <form action="#" method="post">
-                            <h3 class="shoping-checkboxt-title">Billing Details</h3>
-                            <div class="mt-3"><a href="userProfile#address"
-                                    class="nav-link btn register-btn me-2">Click Here to add address</a></div>
-                            <br>
-                            <div class="row">
-                                <% if (address && address.length> 0) { %>
-                                    <% for (let i=0; i < address.length; i++) { %>
-                                        <% const addressObject=address[i]; %>
-                                            <% if (addressObject.address && addressObject.address.length> 0) {
-                                                %>
-                                                <% for (let j=0; j < addressObject.address.length; j++) { %>
-                                                    <% const singleAddress=addressObject.address[j]; %>
-                                                        <div class="_26SF1Q">
-                                                            <div class="umgxnI">
-                                                                <div class="card-header"
-                                                                    style="background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
-                                                                    <h5 class="card-title mb-0"
-                                                                        style="color: #333; font-weight: bold;">
-                                                                        Address&nbsp;
-                                                                        <input required="" class="square"
-                                                                            type="radio"
-                                                                            id="address_<%= singleAddress._id %>"
-                                                                            name="address_id"
-                                                                            value="<%= singleAddress._id %>"
-                                                                            style="height: 15px; width: 15px;"
-                                                                            onclick="handleAddressSelection(this,'<%= j %>')">
-                                                                    </h5>
-                                                                </div>
-                                                                <!-- Address information -->
-                                                                <div class="_2FCIZU">
-                                                                    <span class="_1GczDM">Address Type: <%=
-                                                                            singleAddress.addressType %></span>
-                                                                </div>
-                                                                <p class="_2adSi5">
-                                                                    <span class="_3CfVDh font-weight-bold">
-                                                                        <%= singleAddress.name %>
-                                                                    </span>
-                                                                    <span
-                                                                        class="_1Z7fmh _3CfVDh font-weight-bold">
-                                                                        <%= singleAddress.phone %>
-                                                                    </span>
-                                                                </p>
-                                                                <span class="_2adSi5 WlNme0">
-                                                                    <%= singleAddress.homeAddress %>, <%=
-                                                                            singleAddress.landMark %>, <%=
-                                                                                singleAddress.city %>, <%=
-                                                                                    singleAddress.state %> -
-                                                                                    <span class="_2dQV-8">
-                                                                                        <%= singleAddress.pincode
-                                                                                            %>
-                                                                                    </span>
-                                                                </span>
-                                                                <!-- Delete button -->
-                                                                <div class="mt-3">
-                                                                    <a href="/edit-address?addressId=<%= singleAddress._id %>"
-                                                                        class="btn register-btn me-2">Edit</a>
-                                                                    <br><br>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <% } %>
-                                                            <% } else { %>
-                                                                <p>No addresses found.</p>
-                                                                <div class="mt-3"><a href="userProfile#address"
-                                                                        class="nav-link btn register-btn me-2">Click
-                                                                        Here to add address</a></div>
 
-                                                                <% } %>
-                                                                    <% } %>
-                                                                        <% } else { %>
-                                                                            <p>No addresses found.</p>
-                                                                            <div class="mt-3"><a
-                                                                                    href="userProfile#address"
-                                                                                    class="nav-link btn register-btn me-2">Click
-                                                                                    Here to add address</a>
-                                                                            </div>
-                                                                            <% } %>
-                            </div>
-                        </form>
 
-                    </div>
-                    <div class="col-md-6">
-                        <div class="order_review">
-                            <div class="mb-20">
-                                <h4>Your Orders</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+        <div class="padding-bottom-3x mb-1">
+            <!-- Tracking order details card -->
+            <div class="card mb-3">
+                <!-- Tracking order details header -->
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top">
+                    <span class="text-uppercase">Tracking Order No - </span><span class="text-medium">
+                        <%= findOrder.orderNumber %>
+                    </span>
+                </div>
+
+                <!-- Tracking order details body -->
+                <div class="card-body">
+                    <!-- Status and shipping details -->
+                    <div
+                        class="d-flex flex-wrap flex-sm-nowrap justify-content-between mb-5 py-3 px-2 bg-secondary">
+                        <div hidden class="w-100 text-center py-1 px-2"><span class="text-medium">Shipped
+                                Via:</span> UPS Ground</div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Status:</span>
+                        </div>
+                        <% if(findOrder.status === 'Delivered' ) { %>
+                            <div class="w-100 text-center py-1 px-2" hidden><span class="text-medium">Expected
+                                Date:</span>
+                            <%= expectedDeliveryDate %>
+                        </div>
+
+                            <% } else { %>
+                                <div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected
+                                    Date:</span>
+                                <%= expectedDeliveryDate %>
                             </div>
-                            <div class="table-responsive order_table text-center">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Image</th>
-                                            <th colspan="2">Product</th>
-                                        
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% for (let i = 0; i < cartItems.length; i++) { %>
-                                        <tr>
-                                            <td class="image product-thumbnail"><img src="/uploads/productImages/<%=cartItems[i].productId.images[0] %>" alt="#"></td>
-                                            <td>
-                                                <h5> <a href="/showproduct?id=<%= cartItems[i].productId._id %>">
-                                                    <%= cartItems[i].productId.name %>
-                                                </a></h5>x
-                                                <span id="quantity<%= i %>">
-                                                    <%= cartItems[i].quantity %>
+
+                                <% } %>
+
+
+                        
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x "> </div>
+                    <input type="hidden" value="<%=findOrder.status%>" id="orderstatus">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Details -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="mb-3 d-flex justify-content-between">
+                        <!-- Order details -->
+                        <div>
+                            <span class="me-3">
+                                <%= findOrder.orderDate %>
+                            </span>
+                            <span class="me-3">#<%= findOrder.orderNumber %></span>
+                            <% if (findOrder.orderType==="Razorpay" ) { %>
+                                <span class="me-3"><i class="bi bi-credit-card" style="opacity: 0.5;"></i>
+                                    <%= findOrder.orderType %>
+                                </span>
+                                <% } else { %>
+                                    <span class="me-3"><img
+                                            src="/assets/images/payment pic/cash-on-delivery.png"
+                                            style="height: 16px; width: 15px;  align-items: center; opacity: 0.5;"
+                                            alt="">
+                                        <%= findOrder.orderType %>
+                                    </span>
+                                    <% } %>
+                                        <% if (findOrder.status==='Returned' ||
+                                            findOrder.status==='Canceled' ) { %>
+                                            <span class="badge rounded-pill bg-danger">
+                                                <%= findOrder.status %>
+                                            </span>
+                                            <% } else if (findOrder.status==='Delivered' ) { %>
+                                                <span class="badge rounded-pill bg-success">
+                                                    <%= findOrder.status %>
                                                 </span>
-                                            </td>
-                                         
-                                        </tr>
-                                      
-                                        <tr>
-                                            <th>SubTotal</th>
-                                            <td class="product-subtotal" colspan="2">₹<span class="amount" id="subtotal<%= i %>">
-                                                <%= cartItems[i].subTotal %>
-                                            </span></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Shipping</th>
-                                            <td colspan="2"><em>100</em></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Total</th>
-                                            <td colspan="2"><%= cartItems[i].subTotal +100 %></td>
-                                        </tr>
-                                       
-                                        <% } %>
-                                        
-                                            <thead>  <th>Total</th></thead>
-                                          <tbody> <td colspan="2" class="product-subtotal">₹<span class="amount" id="cartTotal">
-                                            <%= cartData.total %>
-                                        </span></td></tbody>
-                                            
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                            <div class="payment_method">
-                                <div class="mb-25">
-                                    <h5>Payment</h5>
-                                </div>
-                                <div class="payment_option">
-                                    <!-- <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="">
-                                        <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                                        <div class="form-group collapse in" id="bankTranfer">
-                                            <p class="text-muted mt-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
-                                        </div>
-                                    </div> -->
-                                    <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" value="cashOnDelivery" id="cashOnDelivery" checked="">
-                                        <label class="form-check-label" for="cashOnDelivery" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">cash on delivery</label>
-                                        <div class="form-group collapse in" id="checkPayment">
-                                            <p class="text-muted mt-5">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode. </p>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="">
-                                        <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Paypal</label>
-                                        <div class="form-group collapse in" id="paypal">
-                                            <p class="text-muted mt-5">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
-                                        </div>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <a  onclick="placeOrder('<%= cartData._id %>')" class="btn btn-fill-out btn-block mt-30">Place Order</a>
+                                            <% } else if (findOrder.status==='Payment Failed' ) { %>
+                                                <span class="badge rounded-pill bg-danger">
+                                                    <%= findOrder.status %>
+                                                </span>
+                                            <% } else { %>
+                                                <span class="badge rounded-pill bg-warning">
+                                                    <%= findOrder.status %>
+                                                </span>
+                                            <% } %>
                         </div>
+                    </div>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <!-- Order items -->
+                            <% for(let i=0; i<pdtData.length; i++) { %>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex mb-2">
+                                            <div class="flex-shrink-0">
+                                                <img src="/productAssets/<%= pdtData[i].images[0] %>" alt=""
+                                                    width="35" class="img-fluid">
+                                            </div>
+                                            <div class="flex-lg-grow-1 ms-3">
+                                                <h6 class="small mb-0"><a href="#" class="text-reset">
+                                                        <%= pdtData[i].pname %>
+                                                    </a></h6>
+                                                <span class="small">Qty :</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td> 
+                                    </td>
+                                    <td class="text-end"><%= findOrder.items[i].quantity %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                        <tfoot>
+                            <!-- Order totals -->
+                            <tr>
+                                <% let pdttotal=0; 
+                                    for(let i=0;i<findOrder.items.length;i++){ pdttotal+=findOrder.items[i].subTotal
+                                    } const discountAmount=(pdttotal * (findOrder.discount /
+                                    100)).toFixed(2); %>
+                                    <td colspan="2">Subtotal</td>
+                                    <td class="text-end">₹<%= pdttotal %>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Shipping</td>
+                               <% if(pdttotal>=2000){%>
+                                <td class="text-end">₹100.00</td>
+                               <% }else{%>
+                                    <td class="text-end">₹0.00</td>
+                                <%}%>
+                                <!-- Assuming shipping is free -->
+                            </tr>
+                            <% if (findOrder.discount && findOrder.discount> 0) { %>
+
+                                <tr>
+                                    <td colspan="2">Discount (Code: <%= findOrder.coupon %></td>
+                                    <td class="text-danger text-end">-₹<%= findOrder.discount %>
+                                    </td>
+                                </tr>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="2">Discount</td>
+                                        <td class="text-danger text-end">₹0.00</td>
+                                    </tr>
+                                    <% } %>
+
+
+                                        <!-- You can add more totals here if needed -->
+                                        <tr class="fw-bold">
+                                            <td colspan="2">TOTAL</td>
+                                            <td class="text-end">₹<%= findOrder.totalAmount +100 %> 
+                                            </td>
+                                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!-- Payment -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3 class="h6">Payment Method</h3>
+                            <p>
+                                <% if (findOrder.orderType==="Razorpay" ) { %>
+                                    <span class="me-3"><i class="bi bi-credit-card"
+                                            style="opacity: 0.5;"></i>
+                                        <%= findOrder.orderType %>
+                                    </span>
+                                    <% } else { %>
+                                        <span class="me-3"><img
+                                                src="/assets/images/payment pic/cash-on-delivery.png"
+                                                style="height: 16px; width: 15px;  align-items: center; opacity: 0.5;"
+                                                alt="">
+                                            <%= findOrder.orderType %>
+                                        </span>
+                                        <% } %>
+                                            <br>
+                                            Total: ₹<%= findOrder.totalAmount %>
+                                                <% if (findOrder.status==='Returned' ||
+                                                    findOrder.status==='Canceled' ) { %>
+                                                    <span class="badge bg-success rounded-pill">Payment
+                                                        Returned to Wallet</span>
+                                                    <% } else if(findOrder.status==='Payment Failed'){ %>
+                                                        <span
+                                                            class="badge bg-danger rounded-pill">Payment Failed</span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="badge bg-success rounded-pill">PAID</span>
+                                                        <% } %>
+                            </p>
+                            <br>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <h3 class="h6">Billing address</h3>
+                            <h6>To,</h6>
+                            <address style="margin-left: 18px;">
+                                <strong>
+                                    <%= findOrder.shippingAddress[0].name +
+                                        findOrder.shippingAddress[0].name.slice(1) %>
+                                </strong><br>
+                                <%= findOrder.shippingAddress[0].homeAddress  %><br>
+                                    <%= findOrder.shippingAddress[0].city 
+                                         %>, <%=
+                                            findOrder.shippingAddress[0].state %> - <%=
+                                                findOrder.shippingAddress[0].pincode %><br>
+                                                <%= findOrder.shippingAddress[0].mobile %>
+                            </address>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="col-lg-4">
+            <!-- Customer Notes -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="h6">Shipping address</h3>
+                    <h6>To,</h6>
+                    <address style="margin-left: 18px;">
+                        <strong>
+                            <%= findOrder.shippingAddress[0].name %>
+                        </strong><br>
+                        <%= findOrder.shippingAddress[0].homeAddress %><br>
+                            <%= findOrder.shippingAddress[0].city %>, <%=
+                                    findOrder.shippingAddress[0].state.toUpperCase() %> - <%=
+                                        findOrder.shippingAddress[0].pincode %><br>
+                                        <abbr title="Phone">Phone Number :</abbr>
+                                        <%= findOrder.shippingAddress[0].mobile %>
+                    </address>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body" style="align-items: center; justify-content: center;">
+                    <% if (findOrder.status == "Canceled") { %>
+                        <p style="color: rgb(226, 78, 20); font-size: 20px; font-weight: bold; text-align: center;">Order Canceled 😢</p>
+                    <% } else if (findOrder.status == "Delivered") { %>
+                        <p style="color: rgb(20, 226, 30); font-size: 20px; font-weight: bold; margin-bottom: 30px; text-align: center;">Order Delivered 🤩</p>
+                        <div class="single-add-to-cart">
+                            <button onclick="showReturnForm()" class="add-to-cart" style="margin-bottom: 30px; margin-left: 69px;">Request Return</button>
+                        </div>
+                        <div id="reason" style="display: none;">
+                            <input type="radio" id="dont_want" name="reason" value="Don't want the product anymore" style="width: 15px; height: 15px; margin-right: 5px;">
+                            <label for="dont_want">Don't want the product anymore</label><br>
+                            <input type="radio" id="quality" name="reason" value="Quality of the product not as expected" style="width: 15px; height: 15px; margin-right: 5px;">
+                            <label for="quality">Quality of the product not as expected</label><br>
+                            <input type="radio" id="received_wrong" name="reason" value="Received wrong item" style="width: 15px; height: 15px; margin-right: 5px;">
+                            <label for="received_wrong">Received wrong item</label><br>
+                            <input type="radio" id="received_broken" name="reason" value="Received a broken/damaged item" style="width: 15px; height: 15px; margin-right: 5px;">
+                            <label for="received_broken">Received a broken/damaged item</label><br>
+                            <input type="radio" id="other_reason" name="reason" value="Other reason" style="width: 15px; height: 15px; margin-right: 5px;">
+                            <label for="other_reason">Other reason</label><br>
+                            <p class="text-danger" id="error" style="display: none;">Select one</p>
+                            <button onclick="submitReturnRequest('<%=findOrder._id%>')" style="padding: 6px 8px; font-size: 14px; background-color: #c89979; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 30px; margin-top: 20px;">Submit</button>
+                        </div>
+                    <% } else if (findOrder.status == "Return process") { %>
+                        <a onclick="cancelReturn('<%= findOrder._id %>')" class="btn btn-rounded" style="align-items: center; justify-content: center; margin-left: 60px;">
+                            <i class="fa fa-share-square mr-10"></i> Cancel Return
+                        </a>
+                    <% } else if (findOrder.status == "Returned") { %>
+                        <p style="color: rgb(20, 226, 30); font-size: 20px; font-weight: bold; margin-bottom: 30px;">The Order Returned</p>
+                    <% } else if (findOrder.status == "Payment Failed") { %>
+                        <a onclick="continuePayment('<%= findOrder._id %>')" class="btn btn-rounded" style="margin-left: 60px;">
+                            <i class="fa fa-share-square mr-10"></i> Continue Payment
+                        </a>
+                    <% } else { %>
+                        <button onclick="cancelOrder('<%= findOrder._id %>')" class="btn btn-rounded" style="margin-left: 60px;">
+                            <i class="fa fa-share-square mr-10"></i> Cancel Order
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+
+
+
+         
+
+
+
+
+            
+          
     </main>
+
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
             <div class="container">
@@ -925,6 +1273,13 @@
                 </div>
             </div>
         </section>
+
+
+
+
+
+
+
         <section class="section-padding footer-mid">
             <div class="container pt-15 pb-20">
                 <div class="row">
@@ -1049,68 +1404,57 @@
     <script src="./assets/js/shop.js?v=3.4"></script>
 
 
-
-    <script>
-        function placeOrder() {
-    // Get payment option
-    let paymentOption = document.querySelector('input[name="payment_option"]:checked').value;
-    alert(paymentOption);
-    
-    // Define addressId
-    const addressId = document.querySelector('input[name="address_id"]:checked').value; // Assuming address selection is through radio buttons
-    
-    // Get the necessary values
-    const code = document.getElementById("Code") ? document.getElementById("Code").value : "";
-    const totalDis = document.getElementById("cartTotal").textContent;
-
-    // Send request using Fetch API
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+<script>function cancelOrder(orderId) {
+    $.ajax({
+        url: "/cancelOrder",
+        method: "POST",
+        data: {
+            id: orderId
         },
-        body: JSON.stringify({
-            addressId,
-            paymentOption,
-            code,
-            totalDis,
-
-        })
-    })
-    .then(response => response.json())
-    .then(response => {
-        if (response.status === true) {
-            window.location.href = `/orderPlaced?id=${response.order.orderNumber}`;
-        } else if (response.status === "fill the options") {
+        success: function(response) {
+            console.log("Response from server:", response);
+            if (response && response.status === true) {
+                // Show success message with SweetAlert
+                Swal.fire({
+                    icon: "success",
+                    title: "Order Canceled!",
+                    text: "Your order has been successfully canceled.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                }).then(function(result) {
+                    // If the user clicks OK, reload the page
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                // Handle server error or cancellation failure
+                console.error("Failed to cancel order.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Failed to cancel order. Please try again later.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX error
+            console.error("AJAX error:", error);
+            // Show an error message to the user
             Swal.fire({
                 icon: "error",
-                title: "Must fill the Options",
-                showConfirmButton: false,
-                timer: 1500
+                title: "AJAX Error!",
+                text: "Failed to send cancellation request. Please try again later.",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK"
             });
         }
-    })
-    .catch(error => {
-        console.error('Error in placeOrder:', error);
-        Swal.fire({
-            icon: "error",
-            title: "Order failed",
-            text: "There was an error placing your order. Please try again.",
-            showConfirmButton: true
-        });
     });
 }
-    
-            
-        
-    
 
-
-
-    </script>
-
-
-
+</script>
 
 </body>
 

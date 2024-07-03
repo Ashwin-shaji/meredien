@@ -836,6 +836,7 @@
                                         <div class="sort-by-dropdown-wrap">
                                             <select id="sort-by" name="sort-by" onchange="handleSortChange(this.value)">
                                                 <!-- <option value="featured">Featured</option> -->
+                                                 <option value="all">All</option>
                                                 <option value="low-to-high">Price: Low to High</option>
                                                 <option value="high-to-low">Price: High to Low</option>
                                                 <option value="release-date">New arrivals </option>
@@ -1316,18 +1317,23 @@
                             </div> -->
                         </div>
                         <!--pagination-->
-                        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-start">
-                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><i class="fi-rs-angle-double-small-right"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                        <% if (totalPage && page) { %>
+                            <div class="pagination-area mt-30 mb-50">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-start">
+                                        <% if (page > 1) { %>
+                                            <li  class="page-item"><a href="/shop?page=<%=page-1%>" class="page-link"><i class="ion-ios-skipforward"></i></a></li>
+                                        <% } %>
+                                        <% for (let i = Math.max(1, page - 2); i <= Math.min(page + 2, totalPage); i++) { %>
+                                            <li class="page-item"><a href="/shop?page=<%=i%>" class="page-link"><%=i%></a></li>
+                                        <% } %>
+                                        <% if (page < totalPage) { %>
+                                            <li class="page-item"><a href="/shop?page=<%=page+1%>" class="page-link"><i class="ion-ios-skipforward"></i></a></li>
+                                        <% } %>
+                                    </ul>
+                                </nav>
+                                </div> 
+                            <% } %>
                     </div>
                     <div class="col-lg-3 primary-sidebar sticky-sidebar">
                         <div class="widget-category mb-30">

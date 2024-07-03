@@ -10,6 +10,7 @@ const { sendInsertOtp } = require('../util/insertotp');
 const userModel=require('../models/userModel');
 const addressModel = require('../models/addressModel');
 const categoryModel = require('../models/categoryModel');
+const orderModel = require('../models/orderModel');
 
 
 
@@ -179,7 +180,8 @@ const loadUserProfile=async(req,res)=>{
     try {
         const user=await userModel.findById(req.session.user)
         const addresses=await addressModel.findOne({userId: req.session.user})
-        res.render('account',{user,addresses})
+        const orders=await orderModel.find({userId: req.session.user})
+        res.render('account',{user,addresses,orders})
     } catch (error) {
         console.log(error.message);
     }
@@ -259,10 +261,22 @@ if(mobile === alt){
 
 
 
-
-const editAddress=async (req,res)=>{
+const load_edit_Address = async (req, res) => {
     try {
-        res.render('/editAddress')
+      
+    
+        const address = await addressModel.findOne({ userId: req.session.user });
+        if (!address) {
+            return res.status(404).send({ message: 'Address not found' });
+        }
+
+        let index = address.address.findIndex(addr => addr.id === req.query.id);
+        if (index === -1) {
+            return res.status(404).send({ message: 'Address not found' });
+        }
+
+        
+        res.render('editAddress', { address: address.address[index] });
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send({ message: 'Server error', error: error.message });
@@ -270,19 +284,91 @@ const editAddress=async (req,res)=>{
 }
 
 
-
-
-const loadShop=async(req,res)=>{
+const edit_Address =async (req,res)=>{
     try {
-        const product=await productModel.find({is_deleted:true})
-        const category=await categoryModel.find({is_active:true})
-       
-        console.log(category);
-        res.render('shop',{error:null,product,category})
-    } catch (error) {
-        console.log(error.message);
+        const addressId = req.query.addressId;
+    
+        const { addressType, name, city, state, landMark, mobile, alt, Address, pincode } = req.body;
+        
+        const pincodeRegex= /^[1-9][0-9]{5}(?:\s[0-9]{3})?$/;
+        if(!pincodeRegex.test(pincode)){
+            req.flash('error','pimcode mist be a 6-digit number.');
+            return res.redirect('/editAddress?addressId='+addressId)
         }
+
+        const updatedAddress = {
+            addressType, name, city, state, landMark, mobile, alt, Address, pincode 
+        };
+
+        const result = await addressModel.findOneAndUpdate(
+            { 'address._id': addressId },
+            { $set: { 'address.$': updatedAddress } },
+            { new: true }
+        );
+
+        if(!result){
+            console.log("Address not found");
+            return res.status(404).send('Address not found');
+        }else{
+            res.redirect('/userprofile')
+        }
+
+    } catch (error) {
+        console.error('Error:',error.message)
+        res.status(500).send({message:'server error',error:error.message})
+    }
 }
+
+
+const deleteAddress = async (req, res) => {
+    try {
+        const addressId = req.query.addressId;
+        const userId = req.session.user;
+
+        const address = await addressModel.findOne({ userId: userId });
+        console.log(addressId);
+
+        if (!address) {
+            console.log('Address not found');
+            return res.status(404).send('Address not found');
+        }
+
+        address.address = address.address.filter(addr => addr._id.toString() !== addressId);
+
+        await address.save();
+
+        res.redirect('/userprofile');
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+const loadShop = async (req, res) => {
+    try {
+     
+        const perPage = 6; 
+        const page = parseInt(req.query.page) || 1;
+        const category = await categoryModel.find({ is_active: true });
+        const totalProducts = await productModel.countDocuments({ is_deleted: true });
+        console.log(totalProducts);
+        const totalPage = Math.ceil(totalProducts / perPage);
+        const product = await productModel.find({ is_deleted: true })
+            .skip(perPage * (page - 1))
+            .limit(perPage);
+        // Debug logging to verify the data
+        console.log(`Categories: ${category.length}`);
+        console.log(`Total Products: ${totalProducts}`);
+        console.log(`Total Pages: ${totalPage}`);
+        console.log(`Products on Page ${page}: ${product}`);
+
+        res.render('shop', { error: null, category, product, page, totalPage});
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+        res.render('shop', { error: error.message, productData: [], category: [], page: 1, totalPage: 1 });
+    }
+};
+
 
 const search = async (req, res) => {
     try {
@@ -325,7 +411,7 @@ const sort = async (req, res) => {
                 break;
             case 'featured':
             default:
-                sortQuery = {};  // No specific sort, default or featured sort logic
+                sortQuery = {_id: -1};  // No specific sort, default or featured sort logic
                 break;
         }
 
@@ -357,6 +443,16 @@ const catfil=async(req,res)=>{
 
 
 
+const loadresetpassword=async(req,res)=>{
+    try {
+        res.render('resetPassword')
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'An error occurred while loading reset password.' });
+    }
+}
+
+
 module.exports={
     securePassword,
     loadRegister,
@@ -374,9 +470,12 @@ module.exports={
     loadUserProfile,
     loadShop,
     Addaddress,
-    editAddress,
+    load_edit_Address,
+    edit_Address,
+    deleteAddress,
     search,
     sort,
     catfil,
+    loadresetpassword
    
 }

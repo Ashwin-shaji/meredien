@@ -3,6 +3,7 @@ const passport = require('passport');
 const userController = require("../controllers/userController");
 const cartController = require('../controllers/cartController');
 const checkoutController=require('../controllers/checkoutController')
+const orderController=require('../controllers/orderController')
 
 const user_route = express.Router();
 
@@ -40,10 +41,11 @@ user_route.post('/userprofile',auth.isLogin,userController.EditProfile);
 
 user_route.post('/addaddress',auth.isLogin,userController.Addaddress);
 
-user_route.get('/editaddress',auth.isLogin,userController.editAddress);
+user_route.get('/editAddress',auth.isLogin,userController.load_edit_Address);
+user_route.post('/editAddress',auth.isLogin,userController.edit_Address);
+user_route.get('/deleteAddress',userController.deleteAddress)
 
-
-
+user_route.get('/resetPassword',userController.loadresetpassword)
 
 
 user_route.get('/cart',auth.isLogin,cartController.loadCart);
@@ -62,7 +64,11 @@ user_route.post('/pro-del',cartController.removeCart);
 
 
 user_route.get('/checkout',checkoutController.loadCheckout)
+user_route.post('/checkout',cartController.addOrder);
+user_route.get('/orderPlaced',cartController.orderPlaced)
 
+user_route.get('/orderview',orderController.loadViewOrder)
+user_route.post('/cancelOrder',orderController.cancelOrder)
 
 
 

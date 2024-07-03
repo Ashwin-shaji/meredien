@@ -146,7 +146,19 @@ const editProduct = async (req, res) => {
 
 
 
-
+const searchProducts=async(req,res)=>{
+    try {
+        const {searchDataValue}=req.body
+        const searchProducts= await Proudct.find({name:{
+            $regex:searchDataValue,
+            $option:'i'
+        }})
+        res.json({status:"searched",searchProducts})
+  
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 
@@ -156,6 +168,7 @@ module.exports = {
     addProduct,
     activeStatus,
     loadEdit,
-    loadAddProduct
+    loadAddProduct,
+    searchProducts
     
 }
